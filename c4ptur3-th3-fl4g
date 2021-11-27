@@ -1,0 +1,100 @@
+
+
+c4n y0u c4p7u23 7h3 f149?
+http://www.robertecker.com/hp/research/leet-converter.php?lang=en
+
+
+01101100 01100101 01110100 01110011 00100000 01110100 01110010 01111001 00100000 01110011 01101111 01101101 01100101 00100000 01100010 01101001 01101110 01100001 01110010 01111001 00100000 01101111 01110101 01110100 00100001
+
+https://www.rapidtables.com/convert/number/binary-to-ascii.html
+
+
+
+
+MJQXGZJTGIQGS4ZAON2XAZLSEBRW63LNN5XCA2LOEBBVIRRHOM======
+
+https://emn178.github.io/online-tools/base32_decode.html
+
+or 
+echo 'MJQXGZJTGIQGS4ZAON2XAZLSEBRW63LNN5XCA2LOEBBVIRRHOM======' | base32 -d
+base32 is super common in CTF's 
+
+
+
+
+RWFjaCBCYXNlNjQgZGlnaXQgcmVwcmVzZW50cyBleGFjdGx5IDYgYml0cyBvZiBkYXRhLg==
+
+https://www.base64decode.org/
+echo 'RWFjaCBCYXNlNjQgZGlnaXQgcmVwcmVzZW50cyBleGFjdGx5IDYgYml0cyBvZiBkYXRhLg==' | base64 -d  
+Each Base64 digit represents exactly 6 bits of data. 
+
+
+
+hex to ascii
+68 65 78 61 64 65 63 69 6d 61 6c 20 6f 72 20 62 61 73 65 31 36 3f
+
+https://www.rapidtables.com/convert/number/hex-to-ascii.html
+
+
+
+Ebgngr zr 13 cynprf!
+https://rot13.com/
+
+
+
+
+*@F DA:? >6 C:89E C@F?5 323J C:89E C@F?5 Wcf E:>6DX
+Rot 47
+https://rot47.net/
+
+
+Morse code
+- . .-.. . -.-. --- -- -- ..- -. .. -.-. .- - .. --- -.
+
+. -. -.-. --- -.. .. -. --.
+https://morsedecoder.com/
+
+
+BCD to ASCII
+
+https://www.rapidtables.com/convert/number/ascii-hex-bin-dec-converter.html
+choose decimal
+
+
+
+LS0tLS0gLi0tLS0gLi0tLS0gLS0tLS0gLS0tLS0gLi0tLS0gLi0tLS0gLS0tLS0KLS0tLS0gLi0tLS0gLi0tLS0gLS0tLS0gLS0tLS0gLi0tLS0gLS0tLS0gLi0tLS0KLS0tLS0gLS0tLS0gLi0tLS0gLS0tLS0gLS0tLS0gLS0tLS0gLS......
+
+Follow this pattern to solve it.
+
+
+
+from base64 ---> from morse ---> from binary --->rot47 --->Unicode Code Points
+
+https://gchq.github.io/CyberChef/#recipe=From_Base64
+https://rot47.net/
+https://cryptii.com/pipes/text-decimal
+
+Let's make this a bit trickier...
+
+
+run audacity
+change waveform ---> spectrogram
+
+
+#Task 3
+teghide extract -sf stegosteg.jpg                                                                                          127 ⨯
+Enter passphrase: 
+wrote extracted data to "steganopayload2248.txt".
+
+or https://futureboy.us/stegano/decinput.html
+upload ---> submit query
+
+#Task 4 Security through obscurity 
+strings meme.jpg | tail
+....
+"AHH_YOU_FOUND_ME!" 
+hackerchat.png
+
+https://tryhackme.com/room/c4ptur3th3fl4g
+https://medium.com/@IBRice101/ctf-walkthrough-c4ptur3-th3-fl4g-tryhackme-com-4982fb065839
+https://www.aldeid.com/wiki/TryHackMe-c4ptur3-th3-fl4g
