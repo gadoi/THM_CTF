@@ -1,0 +1,239 @@
+echo 'VEhNe2p1NTdfZDNjMGQzXzdoM19iNDUzfQ==' | base64 -d
+THM{ju57_d3c0d3_7h3_b453}
+
+exiftool ../../Downloads/Findme.jpg 
+ExifTool Version Number         : 12.32
+File Name                       : Findme.jpg
+Directory                       : ../../Downloads
+File Size                       : 34 KiB
+File Modification Date/Time     : 2021:11:27 23:21:07+07:00
+File Access Date/Time           : 2021:11:27 23:21:09+07:00
+File Inode Change Date/Time     : 2021:11:27 23:21:09+07:00
+File Permissions                : -rw-r--r--
+File Type                       : JPEG
+File Type Extension             : jpg
+MIME Type                       : image/jpeg
+JFIF Version                    : 1.01
+X Resolution                    : 96
+Y Resolution                    : 96
+Exif Byte Order                 : Big-endian (Motorola, MM)
+Resolution Unit                 : inches
+Y Cb Cr Positioning             : Centered
+Exif Version                    : 0231
+Components Configuration        : Y, Cb, Cr, -
+Flashpix Version                : 0100
+Owner Name                      : THM{3x1f_0r_3x17}
+Comment                         : CREATOR: gd-jpeg v1.0 (using IJG JPEG v62), quality = 60.
+Image Width                     : 800
+Image Height                    : 480
+Encoding Process                : Progressive DCT, Huffman coding
+Bits Per Sample                 : 8
+Color Components                : 3
+Y Cb Cr Sub Sampling            : YCbCr4:2:0 (2 2)
+Image Size                      : 800x480
+Megapixels                      : 0.384
+
+
+steghide extract -sf ../../Downloads/Extinction.jpg 
+Enter passphrase: 
+wrote extracted data to "Final_message.txt".
+
+cat Final_message.txt 
+It going to be over soon. Sleep my child.
+
+THM{500n3r_0r_l473r_17_15_0ur_7urn}
+
+
+#Task 5 Erm......Magick 
+Huh, where is the flag? THM{wh173_fl46}
+
+#Task 6 QRrrrr 
+https://zxing.org/w/decode.jspx
+THM{qr_m4k3_l1f3_345y}
+
+
+Task 7 Reverse it or read it? 
+strings ../../Downloads/hello.hello | grep THM
+THM{345y_f1nd_345y_60}
+
+#Task 8 Another decoding stuff 
+From base58
+https://gchq.github.io/CyberChef/#recipe=From_Base58('123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz',true)&input=M2FnclN5MUNld0Y5djh1a2NTa1BTWW0zb0tVb0J5VXBLRzRM
+THM{17_h45_l3553r_l3773r5}
+
+
+#Task 9 Left or right 
+https://gchq.github.io/CyberChef/#recipe=ROT13(true,true,true,7)&input=TUFGe2F0YmVfbWF4X3Z0eGx0a30
+amount = 7
+THM{hail_the_caesar}
+
+#Task 10 Make a comment 
+F12--> Inspect ---> search THM{
+THM{4lw4y5_ch3ck_7h3_c0m3mn7}
+
+
+https://sckull.github.io/posts/ctf_collection_vol1/
+https://wiki.bi0s.in/forensics/image-forensics/
+
+xxd -plain ../../Downloads/spoil.png > myhexdump.txt
+
+
+magic number for images
+https://gist.github.com/leommoore/f9e57ba2aa4bf197ebc5
+with png
+89 50 4e 47
+
+vi myhexdump.txt
+change magic number
+
+
+https://gchq.github.io/CyberChef/#recipe=From_Hex('Auto')Render_Image('Raw')&input=TUFGe2F0YmVfbWF4X3Z0eGx0a30
+from hex
+vs render image
+
+THM{y35_w3_c4n}
+
+
+google "tryhackme rooms reddit"
+https://www.reddit.com/r/tryhackme/comments/eizxaq/new_room_coming_soon/
+
+site:"reddit.com" intext:"THM" intitle:"tryhackme
+THM{50c14l_4cc0un7_15_p4r7_0f_051n7}
+
+Task 13 Spin my head 
+brainfuck
+https://www.dcode.fr/brainfuck-language
+https://copy.sh/brainfuck/
+
+THM{0h_my_h34d}
+
+
+Task 14 An exclusive! 
+
+https://toolslick.com/math/bitwise/xor-calculator
+44585d6b2368737c65252166234f20626d
+1010101010101010101010101010101010
+
+} r0_3v15ulcx3 {MHT
+echo '}r0_3v15ulcx3{MHT' | rev 
+THM{3xclu51v3_0r}
+
+
+
+Task 15 Binary walk 
+binwalk hell.jpg -e
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             JPEG image data, JFIF standard 1.02
+30            0x1E            TIFF image data, big-endian, offset of first image directory: 8
+265845        0x40E75         Zip archive data, at least v2.0 to extract, uncompressed size: 69, name: hello_there.txt
+266099        0x40F73         End of Zip archive, footer length: 22
+
+                                                                                                                                      
+┌──(root💀lucy)-[/home/gd/Desktop/THM/Ctfcollectionvol1]
+└─# ls -als            
+total 272
+  4 drwxr-xr-x  3 root root   4096 Nov 28 23:04 .
+  4 drwxr-xr-x 20 gd   gd     4096 Nov 28 00:14 ..
+260 -rw-r--r--  1 root root 266121 Nov 28 23:03 hell.jpg
+  4 drwxr-xr-x  2 root root   4096 Nov 28 23:04 _hell.jpg.extracted
+                                                                                                                                      
+┌──(root💀lucy)-[/home/gd/Desktop/THM/Ctfcollectionvol1]
+└─# cd _hell.jpg.extracted             
+                                                                                                                                      
+┌──(root💀lucy)-[/home/…/Desktop/THM/Ctfcollectionvol1/_hell.jpg.extracted]
+└─# ls     
+40E75.zip  hello_there.txt
+                                                                                                                                      
+┌──(root💀lucy)-[/home/…/Desktop/THM/Ctfcollectionvol1/_hell.jpg.extracted]
+└─# cat hello_there.txt   
+Thank you for extracting me, you are the best!
+
+THM{y0u_w4lk_m3_0u7}
+
+wget http://www.caesum.com/handbook/Stegsolve.jar -O stegsolve.jar
+chmod +x stegsolve.jar
+mkdir bin
+mv stegsolve.jar bin/
+java -jar stegsolve.jar
+
+...open dark.png
+---> Blue plane 1
+THM{7h3r3_15_h0p3_1n_7h3_d4rkn355}
+
+
+Task 17 A sounding QR 
+https://zxing.org/w/decode
+decode image QR
+https://soundcloud.com/user-86667759/thm-ctf-vol1
+--> download
+upload https://speech-to-text-demo.ng.bluemix.net/
+text .... The flag is S. O. U. N. D. I. N. G. Q. R.. 
+
+THM{SOUNDINGQR}
+
+
+Task 18 Dig up the past 
+https://web.archive.org/web/20200102131252/https://www.embeddedhacker.com/
+
+THM{ch3ck_th3_h4ckb4ck} 
+
+
+
+Task 19 Uncrackable! 
+https://gchq.github.io/CyberChef/#input=TVlLQUhPRFRRe1JWR19ZVkdHS19GQUxfV1hGfQ
+vigenere cipher
+
+key TRYHACKME
+---->
+THMTHMTHM{YEI_RVEWY_BHU_YQF}
+
+change key THMTHMTHM
+TRYHACKME{YOU_FOUND_THE_KEY}
+
+
+Task 20 Small bases 
+Decimal > Hex
+https://www.rapidtables.com/convert/number/decimal-to-hex.html
+Hex - Ascii
+https://www.rapidtables.com/convert/number/hex-to-ascii.html
+THM{17_ju57_4n_0rd1n4ry_b4535}
+
+Task 21 Read the packet 
+
+wireshark HTTP Stream
+http.request.method == "GET"
+
+
+GET /flag.txt HTTP/1.1
+Host: 192.168.247.140
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+If-Modified-Since: Fri, 03 Jan 2020 04:36:45 GMT
+If-None-Match: "e1bb7-15-59b34db67925a"
+Cache-Control: max-age=0
+
+HTTP/1.1 200 OK
+Date: Fri, 03 Jan 2020 04:43:14 GMT
+Server: Apache/2.2.22 (Ubuntu)
+Last-Modified: Fri, 03 Jan 2020 04:42:12 GMT
+ETag: "e1bb7-20-59b34eee33e0c"
+Accept-Ranges: bytes
+Vary: Accept-Encoding
+Content-Encoding: gzip
+Content-Length: 52
+Keep-Alive: timeout=5, max=100
+Connection: Keep-Alive
+Content-Type: text/plain
+
+THM{d0_n07_574lk_m3}
+
+Found me!
+
+https://tryhackme.com/room/ctfcollectionvol1
+https://shalindafernando.com/ctf/thm-writeup-ctf-collection-vol-1/
+https://sckull.github.io/posts/ctf_collection_vol1/
